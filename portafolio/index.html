@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--cabecera-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!--estilo de paina-->
+    <style>
+        .fondo {
+            background-image: url("imagenes/ensueno-floral-mundo-fondos-florece-mas-alla-tendencias-fondos-florales_481747-28130.webp");
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* ESTILOS PARA LA VALIDACIÓN VISUAL */
+
+        /* Campos válidos - VERDE */
+        .form-control.is-valid,
+        .form-select.is-valid {
+            border-color: #198754 !important;
+            padding-right: calc(1.5em + .75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(.375em + .1875rem) center;
+            background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+        }
+
+        /* Campos inválidos - ROJO */
+        .form-control.is-invalid,
+        .form-select.is-invalid {
+            border-color: #dc3545 !important;
+            padding-right: calc(1.5em + .75rem);
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(.375em + .1875rem) center;
+            background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+            box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+        }
+
+        /* Feedback texto */
+        .valid-feedback {
+            color: #198754;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        /* Animaciones */
+        .form-control,
+        .form-select {
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto en checkboxes */
+        .form-check-input:checked {
+            background-color: #198754;
+            border-color: #198754;
+        }
+
+        /* Alerta animada */
+        .alert {
+            transition: all 0.5s ease;
+        }
+
+        /* Botones */
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Títulos */
+        .container {
+            width: 100%;
+            max-width: 1250px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #25D366, #128C7E);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+
+        .whatsapp-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .form-content {
+            padding: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .required {
+            color: #ff4757;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: #f8fafc;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #25D366;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .project-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .project-option {
+            position: relative;
+        }
+
+        .project-option input {
+            display: none;
+        }
+
+        .project-option label {
+            display: block;
+            padding: 15px;
+            background: #f8fafc;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .project-option input:checked+label {
+            background: #e8f7ee;
+            border-color: #25D366;
+            color: #128C7E;
+        }
+
+        .submit-buttons {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(90deg, #25D366, #1da851);
+            color: white;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+        @media (max-width: 768px) {
+            .submit-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .project-options {
+                grid-template-columns: 1fr;
+            }
+
+            .form-content {
+                padding: 25px;
+            }
+        }
+
+        .notification {
+            display: none;
+            padding: 15px;
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            color: #155724;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .img-footer {
+            width: 120px;
+            height: auto;
+        }
+    </style>
+    <title>MI PORTAFOLIO</title>
+</head>
+
+<body>
+    <!--tiulo de pagina-->
+    <div class="row fondo align-items-center">
+        <h1 class="text-black text-center ">pogramador fronted</h1>
+    </div>
+    <!--navegador-->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img
+                    src="logo/vector-concepto-internet-ventana-navegador-globo_106427-185.webp" width="30px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#habilidades">habilidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#sobre mi">sobre mi</a>
+                    </li>
+                    <!--contactos-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">contacto</a>
+                    </li>
+                </ul>
+                <!--busqueda-->
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!--tarjetas-->
+    <div class="contaner mt-5 text-center">
+        <h1 class="text-center text-uppercase fst-italic fw-bold" id="habilidades">mis habilidades</h1>
+        <div class="card d-inline-block" style="width: 18rem;">
+            <img src="imagenes/responsive-design-layout-software-concept_53876-124325.webp" class="card-img-top"
+                alt="...">
+            <div class="card-body">
+                <h5 class="card-title">web responsiva</h5>
+                <p class="card-text">Perfecto en cualquier pantalla.
+                    Hecho para tus ojos Un sitio. Todas las pantallas.
+                    Toda la experiencia.</p>
+                <a class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal1">ver
+                    detalles</a>
+            </div>
+        </div>
+        <div class="card d-inline-block" style="width: 18rem;">
+            <img src="imagenes/difference-between-html-and-html5-1024x449.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">html</h5>
+                <p class="card-text">"Transformo ideas en realidad digital usando HTML como base y CSS para darles
+                    vida
+                    y estilo.".</p>
+                <a class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal2">ver
+                    detalles</a>
+            </div>
+        </div>
+        <div class="card d-inline-block" style="width: 18rem;">
+            <img src="imagenes/images.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Css</h5>
+                <p class="card-text">"Domino CSS: diseños responsive, animaciones, Flexbox y Grid para crear interfaces
+                    modernas y atractivas."</p>
+                <a class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal3">ver
+                    detalles</a>
+            </div>
+        </div>
+        <div class="card d-inline-block" style="width: 18rem;">
+            <img src="imagenes/bootstrap-5.0-illustration.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">bootstrap-5</h5>
+                <p class="card-text">"Domino Bootstrap - construyo experiencias web responsive que se adaptan
+                    perfectamente a cualquier dispositivo."</p>
+                <a class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal4">ver
+                    detalles</a>
+            </div>
+        </div>
+    </div>
+    <!--texto-->
+    <div class="container mt-2 text-center">
+        <h1 class="text-center text-uppercase fst-italic fw-bold" id="sobre mi">mi portafolio</h1>
+        <p class="text-justify" style="text-align: justify;">
+            "Soy <strong>edwin rodriguez</strong>, desarrollador frontend con una misión
+            clara: crear experiencias digitales que importen. Mi toolkit principal incluye <em>HTML, CSS y
+                Bootstrap</em>,
+            herramientas que domino para construir sitios web completamente responsivos.
+
+            Mi filosofía de trabajo se basa en tres pilares:</br>
+        <ul>
+            <li>Código limpio - Estructuras semánticas y organizadas</li>
+
+            <li>Diseño adaptable - Perfecto funcionamiento en todos los dispositivos</li>
+
+            <li>Performance - Sitios rápidos y optimizados</li>
+        </ul>
+
+        Estoy convencido de que el buen desarrollo frontend es invisible para el usuario, pero esencial para su
+        experiencia."</p>
+    </div>
+    <!--formulario-->
+    <div class="container">
+        <div class="form-card">
+            <div class="header">
+                <div class="whatsapp-icon">📱</div>
+                <h1>Solicitud de Proyecto Web</h1>
+                <p>Complete el formulario y envíenos su solicitud</p>
+            </div>
+
+            <div class="form-content">
+                <div id="notification" class="notification">
+                    ¡Formulario completado! Seleccione cómo desea enviarlo.
+                </div>
+
+                <form id="projectForm">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Nombre completo <span class="required">*</span>
+                        </label>
+                        <input type="text" class="form-input" id="nombre" placeholder="ingresa tu nombre" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Correo electrónico <span class="required">*</span>
+                        </label>
+                        <input type="email" class="form-input" id="correo" placeholder="ejemplo@correo.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Número de teléfono <span class="required">*</span>
+                        </label>
+                        <input type="tel" class="form-input" id="telefono" placeholder="ingresa tu numero" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Tipo de proyecto web <span class="required">*</span>
+                        </label>
+                        <div class="project-options">
+                            <div class="project-option">
+                                <input type="radio" id="ecommerce" name="proyecto" value="E-commerce" required>
+                                <label for="ecommerce">web responsiva</label>
+                            </div>
+                            <div class="project-option">
+                                <input type="radio" id="landing" name="proyecto" value="Landing Page">
+                                <label for="landing">diseño</label>
+                            </div>
+                            <div class="project-option">
+                                <input type="radio" id="blog" name="proyecto" value="Blog">
+                                <label for="blog">Blog</label>
+                            </div>
+                            <div class="project-option">
+                                <input type="radio" id="corp" name="proyecto" value="Sitio Corporativo">
+                                <label for="corp">Sitio Corporativo</label>
+                            </div>
+                            <div class="project-option">
+                                <input type="radio" id="otro" name="proyecto" value="Otro">
+                                <label for="otro">Otro</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            Mensaje o detalles del proyecto <span class="required">*</span>
+                        </label>
+                        <textarea class="form-textarea" id="mensaje"
+                            placeholder="Describa su proyecto, requisitos, presupuesto aproximado, plazo estimado..."
+                            required></textarea>
+                    </div>
+
+                    <div class="submit-buttons d-flex justify-content-center">
+                        <button type="button" class="btn btn-whatsapp" onclick="enviarWhatsApp()">
+                            <span class="icon">📱</span>
+                            Enviar por WhatsApp
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--footer-->
+    <div class="container p-4 bg-light text-center">
+        <img src="imagenes/images.png" class="img-footer" alt="">
+        copyright 2025
+    </div>
+    <!--modal-->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">diseño web responsiva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="imagenes/responsive-design-layout-software-concept_53876-124325 (1).webp"
+                        class="img-fluid" alt="">
+                    <p>La Web Responsive (o Diseño Web Adaptable) es un enfoque de desarrollo que busca que los sitios
+                        web se visualicen y funcionen de manera óptima en cualquier dispositivo, ya sea un ordenador de
+                        escritorio, una tableta o un teléfono móvil.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--html-->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">sobre html</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="imagenes/difference-between-html-and-html5-1024x449.jpg" class="img-fluid" alt="">
+                    <p>Función Principal: Entiendes que HTML es el esqueleto o la estructura base de cualquier página
+                        web. Es la capa fundamental donde se define el contenido.</br>
+
+                        Definición Correcta: Sabes que no es un lenguaje de programación, sino un lenguaje de marcado
+                        (HyperText Markup Language), lo que significa que se usa para "marcar" o etiquetar el contenido
+                        para darle significado y organización.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--css-->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">sobre css</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="imagenes/images.png" class="img-fluid" alt="">
+                    <p>Función Principal: Entiendes perfectamente que CSS es la capa de estilos y presentación visual de
+                        una página web. Es lo que transforma la estructura básica de HTML en un diseño atractivo.<br />
+
+                        Separación de Responsabilidades: Tienes claro el principio fundamental de separar el contenido
+                        (HTML) de su presentación (CSS), lo que es crucial para un desarrollo web mantenible y
+                        organizado.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--bootstrap-->
+    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">sobre bootstrap-5</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="imagenes/bootstrap-5.0-illustration.png" class="img-fluid" alt="">
+                    <p>Lo entiendo como una herramienta práctica que potencia lo que HTML y CSS pueden hacer,
+                        enfocándose en productividad y diseño adaptable.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-2">
+        <button class="btn btn-sm btn-outline-success me-2"
+            onclick="window.open('https://wa.me/573108694173?text=datos de contacto', '_blank')">
+            datos de contacto: 573108694173
+        </button>
+    </div>
+    <!--flotar-->
+    <div class="container">
+        <div class="float-start border"><b>portafolio</b></div>
+        <div class="float-end border"><b>mi portafolio</b></div>
+    </div>
+    <!-- Bootstrap JS (DEJA SOLO ESTO) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+        </script>
+    <script>
+        function validarFormulario() {
+            const form = document.getElementById('projectForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return false;
+            }
+
+            // Mostrar notificación
+            document.getElementById('notification').style.display = 'block';
+            return true;
+        }
+
+        function obtenerDatosFormulario() {
+            return {
+                nombre: document.getElementById('nombre').value,
+                correo: document.getElementById('correo').value,
+                telefono: document.getElementById('telefono').value,
+                proyecto: document.querySelector('input[name="proyecto"]:checked').value,
+                mensaje: document.getElementById('mensaje').value,
+                fecha: new Date().toLocaleString('es-ES')
+            };
+        }
+
+        function enviarWhatsApp() {
+            if (!validarFormulario()) return;
+
+            const datos = obtenerDatosFormulario();
+            const telefono = "573108694173"; // Tu número sin símbolos
+            const mensaje = `*Nueva Solicitud Web*%0A%0A` +
+                `*Nombre:* ${datos.nombre}%0A` +
+                `*Correo:* ${datos.correo}%0A` +
+                `*Teléfono:* ${datos.telefono}%0A` +
+                `*Proyecto:* ${datos.proyecto}%0A` +
+                `*Mensaje:* ${datos.mensaje}%0A` +
+                `*Fecha:* ${datos.fecha}`;
+
+            window.open(`https://wa.me/${telefono}?text=${mensaje}`, '_blank');
+        }
+
+        // Mostrar notificación al completar campos
+        document.getElementById('projectForm').addEventListener('input', function () {
+            const form = document.getElementById('projectForm');
+            if (form.checkValidity()) {
+                document.getElementById('notification').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+<!-- Bootstrap JS (DEJA SOLO ESTO) -->
+
+</html>
