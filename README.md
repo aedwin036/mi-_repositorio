@@ -19,4 +19,4 @@ El objetivo del portafolio es mostrar mi perfil como **Frontend Developer**, mi 
 ## 📁 Estructura del proyecto
 
 
-https://aedwin036.github.io/andres_fronted/
+https://aedwin036.github.io/andres_frontend/
